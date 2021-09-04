@@ -33,9 +33,9 @@ func mapstructureExport(m interface{}, s interface{}, tagNames ...string) {
 
 
 
-func ToStructV2(m interface{}, s interface{}, tagNames ...string) {
+func ToStruct(m interface{}, s interface{}, tagNames ...string) {
 	if str, ok := m.(string); ok {
-		JsonToStructV2(str, s, tagNames...)
+		JsonToStruct(str, s, tagNames...)
 		return
 	}
 	// 非字符串内容，由他自己处理
@@ -43,7 +43,7 @@ func ToStructV2(m interface{}, s interface{}, tagNames ...string) {
 }
 
 // 将json字符串，使用mapstruct实现
-func JsonToStructV2(json string, s interface{}, tagNames ...string) {
+func JsonToStruct(json string, s interface{}, tagNames ...string) {
 	m := JsonDecodeSafe(json)
 	if m == nil {
 		return
