@@ -71,6 +71,11 @@ func AppendStuct(reciv Any, give Any) {
 	}
 }
 
+// 组装 http url 的key 和value
+// param @v url 的值
+// param @keys url key列表
+// param @withOutEncode 是否需要编码
+// return 返回组装完成的 http url key/value
 func EncodeUrlWithoutSort(v url.Values, keys []string, withOutEncode bool) string {
 	if v == nil {
 		return ""
@@ -102,6 +107,7 @@ func EncodeUrlWithoutSort(v url.Values, keys []string, withOutEncode bool) strin
 	return res
 }
 
+// 判断val 是否在arry 中
 func InArray(val interface{}, array interface{}) (exists bool, index int) {
 	exists = false
 	index = -1
@@ -132,6 +138,7 @@ func UnderLineToCamel(line string) string {
 	return n
 }
 
+// 合并两个map
 func MergeMap(argus ...map[string]interface{}) map[string]interface{} {
 	ret := make(map[string]interface{})
 	for _, m := range argus {
@@ -142,6 +149,9 @@ func MergeMap(argus ...map[string]interface{}) map[string]interface{} {
 	return ret
 }
 
+// http get 请求
+// return http get response body
+// return error
 func HttpGet(url string) (map[string]interface{}, error) {
 	resp, err := http.Get(url)
 	if err != nil {
@@ -159,6 +169,10 @@ func HttpGet(url string) (map[string]interface{}, error) {
 	return rep, nil
 }
 
+// 设置连接超时时间
+// param @cTimeout conntect timeout second
+// param @rwTimeout read/write timeout second
+// return func
 func TimeoutDialer(cTimeout time.Duration, rwTimeout time.Duration) func(net, addr string) (c net.Conn, err error) {
 	return func(netw, addr string) (net.Conn, error) {
 		conn, err := net.DialTimeout(netw, addr, cTimeout)
@@ -170,6 +184,7 @@ func TimeoutDialer(cTimeout time.Duration, rwTimeout time.Duration) func(net, ad
 	}
 }
 
+// 获取 map key 列表
 func MapKeys(item map[string]interface{}) []string {
 	ks := make([]string, 0)
 	for k := range item {
@@ -178,6 +193,13 @@ func MapKeys(item map[string]interface{}) []string {
 	return ks
 }
 
+// http post 请求
+// param @url http url
+// param @params http post body
+// param @seconds connect/read/write timeout second
+// param @header http post header
+// return response body
+// return post error
 func HttpPost(url string, params interface{}, seconds int, header ...interface{}) (map[string]interface{}, error) {
 	body := JsonEncode(params)
 
@@ -245,7 +267,7 @@ func SubStrByShowLen(s, suffix string, l int) string {
 	}
 	return ss + suffix
 }
-
+// map 深度拷贝
 func CopyMapTopLevel(src H) H {
 	res := make(H, len(src))
 	for k, v := range src {
@@ -254,6 +276,7 @@ func CopyMapTopLevel(src H) H {
 	return res
 }
 
+// 比较来个slice 的差异
 func Diff(arr1 []int64, arr2 []int64) []int64 {
 	ret := make([]int64, 0)
 	for _, i := range arr1 {
@@ -263,7 +286,7 @@ func Diff(arr1 []int64, arr2 []int64) []int64 {
 	}
 	return ret
 }
-
+// 获取slice 中最大值
 func MaxInSlice(arr []int64) int64 {
 	max := int64(math.MinInt64)
 	for _, v := range arr {
@@ -274,6 +297,7 @@ func MaxInSlice(arr []int64) int64 {
 	return max
 }
 
+// 获取当前路径
 func GetCurPath() string {
 	file, _ := exec.LookPath(os.Args[0])
 	path, _ := filepath.Abs(file)
@@ -281,6 +305,7 @@ func GetCurPath() string {
 	return rst
 }
 
+// 取模
 func Ceil(n int, c int) int {
 	if n%c == 0 {
 		return n
@@ -288,6 +313,7 @@ func Ceil(n int, c int) int {
 	return int(math.Ceil(float64(n)/float64(c))) * c
 }
 
+// 获取文件后缀
 func GetFileExt(path string) string {
 	for i := len(path) - 1; i >= 0 && !os.IsPathSeparator(path[i]); i-- {
 		if path[i] == '.' {
@@ -425,6 +451,7 @@ func SplitComma(str string) []string {
 	return FilterEmptyStr(arr)
 }
 
+// 数值转人民币
 func Number2Chinese(number int64, money ...bool) (chinese string) {
 	isMoney := len(money) > 0 && money[0]
 	if number == 0 {
@@ -486,6 +513,7 @@ func Number2Chinese(number int64, money ...bool) (chinese string) {
 	return
 }
 
+// 宽字符长度计算
 func GetStringLenInfo(str string) (runeLen int, displayLen int) {
 	runeLen = utf8.RuneCountInString(str)
 	s := []byte(str)

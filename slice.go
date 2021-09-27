@@ -2,6 +2,12 @@ package iutils
 
 import "reflect"
 
+// 通过自定义函数比较是否在切片中
+// param @val 待判断的值
+// param @array 目标切片
+// param equalFunc 自定义比较函数
+// return @exist 是否存在
+// return @index 若存在返回在数组所在位置
 func InArrayByFunc(val interface{}, array interface{}, equalFunc func(val, arrayItem interface{}) bool) (exist bool, index int) {
 	exist = false
 	index = -1
@@ -19,26 +25,33 @@ func InArrayByFunc(val interface{}, array interface{}, equalFunc func(val, array
 	return
 }
 
+// 判断val 是否在切片中
 func IsExists(val interface{}, array interface{}) bool {
 	e, _ := InArray(val, array)
 	return e
 }
 
+// 判断某个值是否在切片中
 func IsExistsByFunc(val interface{}, array interface{}, equalFunc func(val, arrayItem interface{}) bool) bool {
 	e, _ := InArrayByFunc(val, array, equalFunc)
 	return e
 }
 
+// 获取val在切片中的位置
+// return 若不存在返回值为-1
 func IndexOf(val interface{}, array interface{}) int {
 	_, i := InArray(val, array)
 	return i
 }
 
+// 通过自定义函数获取val在切片中的位置
+// return 若不存在返回值为-1
 func IndexOfByFunc(val interface{}, array interface{}, equalFunc func(val, arrayItem interface{}) bool) int {
 	_, i := InArrayByFunc(val, array, equalFunc)
 	return i
 }
 
+// 切片值去重
 func Deduplication(arr []int64) []int64 {
 	helper := make(map[int64]bool)
 	res := make([]int64, 0)
@@ -51,7 +64,7 @@ func Deduplication(arr []int64) []int64 {
 	return res
 }
 
-
+// 删除切片中某个索引的值
 func RemoveNum(arr []int64, target int64) []int64 {
 	index := -1
 	for i, v := range arr {
@@ -69,8 +82,6 @@ func RemoveNum(arr []int64, target int64) []int64 {
 	return append(arr[:index], arr[index+1:]...)
 }
 
-
-
 // 删除交集
 func RemoveIntersection(arr1, arr2 []int64) []int64 {
 	arr2m := make(map[int64]struct{})
@@ -85,7 +96,6 @@ func RemoveIntersection(arr1, arr2 []int64) []int64 {
 	}
 	return result
 }
-
 
 // 切片中的所有元素是否都满足指定方法
 func All(array interface{}, function func(item interface{}) bool) bool {
@@ -120,7 +130,6 @@ func AnyOne(array interface{}, function ...func(item interface{}) bool) bool {
 	}
 	return false
 }
-
 
 // 将切片中的每个元素都作为入参传入指定方法中，收集方法返回值并放入切片返回
 func Select(array interface{}, function func(item interface{}) interface{}) []interface{} {
@@ -192,4 +201,3 @@ func FirstOrDefault(array interface{}, function func(item interface{}) bool, def
 	}
 	return def
 }
-

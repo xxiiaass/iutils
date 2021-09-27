@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+// 获取两个值之间的随机数
 func RandInt64(min, max int64) int64 {
 	if min >= max {
 		return 0
@@ -13,6 +14,8 @@ func RandInt64(min, max int64) int64 {
 	return rand.Int63n(max-min) + min
 }
 
+// 若size <= len , 生成常规的切片
+// 若size > len , 生成切片的值为常规切片中的随机值
 func RandSliceIdx(size, len int) []int {
 	idxs := make([]int, len)
 	for i := range idxs {
@@ -28,6 +31,7 @@ func RandSliceIdx(size, len int) []int {
 	return ret
 }
 
+// 从切片中获取随机值，和剩余的其他值
 func RandSlice(s []int) (int, []int) {
 	idx := rand.Int() % len(s)
 	ret := s[idx]

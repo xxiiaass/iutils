@@ -27,6 +27,7 @@ var (
 // UUID represents a UUID
 type UUID [16]byte
 
+// 获取UUID 字符串内容
 func (u UUID) String() string {
 	return fmt.Sprintf("%x-%x-%x-%x-%x",
 		u[0:4], u[4:6], u[6:8], u[8:10], u[10:])
@@ -99,7 +100,7 @@ func UUID5(namespace UUID, name string) UUID {
 	return uuid
 }
 
-// 默认使用 UUID4
+// NewUUID 默认使用 UUID4
 func NewUUID() string {
 	return UUID4().String()
 }

@@ -14,6 +14,7 @@ type WrEle struct {
 
 type WrList []WrEle
 
+// 获取总权重
 func (list WrList) TotalWeight() int {
 	total := 0
 	for _, i := range list {
@@ -22,6 +23,7 @@ func (list WrList) TotalWeight() int {
 	return total
 }
 
+// 获取随机权重的key
 func (list WrList) Rand() string {
 	total := list.TotalWeight()
 

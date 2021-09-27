@@ -59,6 +59,7 @@ const (
 	YearSec   = 365 * DaySec // 一年
 )
 
+// 判断时间段是否跨天
 func IsCrossDay(begin int64, ends ...int64) bool {
 	end := time.Now().Unix()
 	if len(ends) > 0 {
@@ -69,6 +70,7 @@ func IsCrossDay(begin int64, ends ...int64) bool {
 	return bstr < estr
 }
 
+// 日期时间点(YYYY-MM-DD HH:dd:ss)转时间戳
 func DatetimeToUnix(date string) int64 {
 	loc, _ := time.LoadLocation("Local")
 	t, err := time.ParseInLocation("2006-01-02 15:04:05", date, loc)
@@ -79,29 +81,35 @@ func DatetimeToUnix(date string) int64 {
 	return t.Unix()
 }
 
+// 年月日(YYYY-MM-DD)转时间戳
 func DateToUnix(date string) int64 {
 	loc, _ := time.LoadLocation("Local")
 	t, _ := time.ParseInLocation("2006-01-02", date, loc)
 	return t.Unix()
 }
 
+// 时间戳转日期时间点(YYYY-MM-DD HH:dd:ss)
 func UnixToDate(unix int64) string {
 	return time.Unix(unix, 0).Format("2006-01-02 15:04:05")
 }
 
+// 获取今天凌晨对应的时间戳
 func TodayBegin() time.Time {
 	return Begin(time.Now())
 }
 
+// 获取某个时间对应当天凌晨时间戳
 func Begin(t time.Time) time.Time {
 	loc, _ := time.LoadLocation("Local")
 	return time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, loc)
 }
 
+// 获取当天23:59:59 时间点对应的时间戳
 func TodayEnd() time.Time {
 	return End(time.Now())
 }
 
+// 获取某个时间对应当天23:59:59 时间点对应的时间戳
 func End(t time.Time) time.Time {
 	loc, _ := time.LoadLocation("Local")
 	return time.Date(t.Year(), t.Month(), t.Day(), 23, 59, 59, 0, loc)
@@ -157,6 +165,7 @@ func GetThisDayBeginEnd(t time.Time) (begin, end time.Time) {
 	return Begin(t), End(t)
 }
 
+// 获取距离明天凌晨的时间长度
 func DurationUntilTomorrow() time.Duration {
 	loc, _ := time.LoadLocation("Local")
 	tomorrow := time.Now().Add(time.Hour * 24)
@@ -164,14 +173,16 @@ func DurationUntilTomorrow() time.Duration {
 	return time.Until(tomorrow)
 }
 
+// 获取当前时间戳，秒级
 func GetNowUnix() int64 {
 	return time.Now().Unix()
 }
 
+// 获取当前时间戳，毫秒级
 func GetNowUnixMilli() int64 {
 	return time.Now().UnixNano() / int64(time.Millisecond)
 }
-
+// 获取当前时间戳，纳秒级
 func GetNowUnixNano() int64 {
 	return time.Now().UnixNano()
 }
@@ -208,14 +219,17 @@ func YmdStr(year, month, day int, sep ...string) string {
 	return strings.Join(ymd, sym)
 }
 
+// 获取两个时间间隔天数
 func SubDay(time1, time2 time.Time) int64 {
 	return int64(time1.Sub(time2).Hours() / 24)
 }
 
+// 获取某个时间对应的小时
 func GetDayHourNum(t int64) int {
 	return time.Unix(t, 0).Hour()
 }
 
+// 获取时间错在当天已过的时长秒
 func GetOneDaySec(t int64) int64 {
 	ti := time.Unix(t, 0)
 	ti = Begin(ti)
@@ -245,7 +259,6 @@ func LastMonthDay(month, day int, nows ...time.Time) time.Time {
 	// 错误的输入，会导致最后查不到结果，直接返回当前时间
 	return now
 }
-
 
 // 获取某一天的0点时间
 func GetZeroTime(d time.Time) time.Time {
