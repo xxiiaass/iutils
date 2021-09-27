@@ -1,4 +1,4 @@
-module github.com/xxiiaass/iutils
+module git.woa.com/wellgo/iutils
 
 go 1.16
 
