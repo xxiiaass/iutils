@@ -8,6 +8,8 @@ import (
 )
 
 // 类型转换相关
+// 建议使用更完善的工具库 https://github.com/spf13/cast
+
 
 // 判断该值是否为表示空值，0，"0"， false, "false"等
 func Empty(v interface{}) bool {
@@ -53,13 +55,6 @@ func IsNil(i interface{}) bool {
 	}
 
 	return i == nil
-}
-
-func ValNotNilOrDefault(v, d interface{}) interface{} {
-	if v != nil {
-		return v
-	}
-	return d
 }
 
 // 如果是字符串，则转化为int64, 浮点数丢失精度，无法转化则为0

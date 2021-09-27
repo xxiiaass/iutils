@@ -1,28 +1,14 @@
 package iutils
 
-type HashFunc func(str string) int64
-
-var (
-	BKDRHashFunc HashFunc = BKDRHash
-	APHashFunc   HashFunc = APHash
-	SDBMHashFunc HashFunc = SDBMHash
-	RSHashFunc   HashFunc = RSHash
-	JSHashFunc   HashFunc = JSHash
-	ELFHashFunc  HashFunc = ELFHash
-	DJBHashFunc  HashFunc = DJBHash
-)
-
-
-func GetHashCode(str string, funcType ...HashFunc) int64 {
-	hashCode := BKDRHashFunc
-	if len(funcType) > 0 {
-		hashCode = funcType[0]
-	}
-	return hashCode(str)
+// 获取一个将字符串转为int64的算法句柄
+func HashCode() hashCode {
+	return hashCode{}
 }
 
+type hashCode struct {
+}
 
-func BKDRHash(str string) int64 {
+func (hashCode) BKDRHash(str string) int64 {
 	const seed int64 = 131
 	r := []rune(str)
 	count, size := len(r), len(r)
@@ -34,7 +20,7 @@ func BKDRHash(str string) int64 {
 	return hash & 0x7FFFFFFF
 }
 
-func APHash(str string) int64 {
+func (hashCode) APHash(str string) int64 {
 	r := []rune(str)
 	count := len(r)
 	var hash int64
@@ -49,7 +35,7 @@ func APHash(str string) int64 {
 	return hash & 0x7FFFFFFF
 }
 
-func SDBMHash(str string) int64 {
+func (hashCode) SDBMHash(str string) int64 {
 	r := []rune(str)
 	count, size := len(r), len(r)
 	var hash int64
@@ -60,7 +46,7 @@ func SDBMHash(str string) int64 {
 	return hash & 0x7FFFFFFF
 }
 
-func RSHash(str string) int64 {
+func (hashCode) RSHash(str string) int64 {
 	var a int64 = 63689
 	const b int64 = 378551
 	r := []rune(str)
@@ -74,7 +60,7 @@ func RSHash(str string) int64 {
 	return hash & 0x7FFFFFFF
 }
 
-func JSHash(str string) int64 {
+func (hashCode) JSHash(str string) int64 {
 	var hash int64 = 1315423911
 	r := []rune(str)
 	count, size := len(r), len(r)
@@ -85,7 +71,7 @@ func JSHash(str string) int64 {
 	return hash & 0x7FFFFFFF
 }
 
-func ELFHash(str string) int64 {
+func (hashCode) ELFHash(str string) int64 {
 	var x, hash int64
 	r := []rune(str)
 	count, size := len(r), len(r)
@@ -100,7 +86,7 @@ func ELFHash(str string) int64 {
 	return hash & 0x7FFFFFFF
 }
 
-func DJBHash(str string) int64 {
+func (hashCode) DJBHash(str string) int64 {
 	r := []rune(str)
 	count, size := len(r), len(r)
 	var hash int64

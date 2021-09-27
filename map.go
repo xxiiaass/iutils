@@ -32,7 +32,10 @@ func mapstructureExport(m interface{}, s interface{}, tagNames ...string) {
 }
 
 
-
+// 将多个类型的数据，映射到结构体中
+// @param m string|map|struct|[]map 源数据
+// @param s *struct|*[]struct 接收数据的结构体，可以是结构体切片，但是必须是指针类型
+// @param tagNames string 做字段映射的时候，默认使用json的tag，可以在这里指定使用什么tag
 func ToStruct(m interface{}, s interface{}, tagNames ...string) {
 	if str, ok := m.(string); ok {
 		JsonToStruct(str, s, tagNames...)
@@ -43,6 +46,9 @@ func ToStruct(m interface{}, s interface{}, tagNames ...string) {
 }
 
 // 将json字符串，使用mapstruct实现
+// @param json string 源数据json
+// @param s *struct|*[]struct 接收数据的结构体，可以是结构体切片，但是必须是指针类型
+// @param tagNames string 做字段映射的时候，默认使用json的tag，可以在这里指定使用什么tag
 func JsonToStruct(json string, s interface{}, tagNames ...string) {
 	m := JsonDecodeSafe(json)
 	if m == nil {
@@ -91,11 +97,19 @@ func deepSet(m map[string]interface{}, key string, val interface{}) bool {
 }
 
 
-
-func DeepGet(m map[string]interface{}, key string) (interface{}, bool) {
+// 能够多层级获取map中的数据
+// @param m 待获取的数据源
+// @param key 字段，格式为 a.b.c.d
+// @return v 获取到的值
+// @return ok 是否成功获取到了值
+func DeepGet(m map[string]interface{}, key string) (v interface{}, ok bool) {
 	return deepGet(m, key)
 }
 
+// 能够多层级获取map中的数据，无法获取时抛出错误
+// @param m 待获取的数据源
+// @param key 字段，格式为 a.b.c.d
+// @return 获取到的值
 func DeepGetMust(m map[string]interface{}, key string) interface{} {
 	v, ok := deepGet(m, key)
 	if !ok {
@@ -104,11 +118,20 @@ func DeepGetMust(m map[string]interface{}, key string) interface{} {
 	return v
 }
 
+// 能够多层级获取map中的数据，无法获取时返回nil
+// @param m 待获取的数据源
+// @param key 字段，格式为 a.b.c.d
+// @return 获取到的值
 func DeepGetShould(m map[string]interface{}, key string) interface{} {
 	v, _ := deepGet(m, key)
 	return v
 }
 
+
+// 能够多层级设置map中的数据，失败时抛出异常
+// @param m 待设置的数据源
+// @param key 字段，格式为 a.b.c.d
+// @param val 值
 func DeepMustSet(m map[string]interface{}, key string, val interface{}) {
 	succ := deepSet(m, key, val)
 	if !succ {
