@@ -2,6 +2,159 @@
 
 本项目用于集成平时go项目中常用的一些小工具函数，减少各个项目中，重复的代码，让写代码多一点点快乐
 
+* as_type 中有类型转换的函数，建议使用cast库
+* calculate 有一些数字计算的方法
+* hash 中是关于base64、加解密、md5的工具函数
+* json 中是关于json格式化，编码、解码函数
+* location 关于地域的工具函数, 省、市的处理
+* map 关于结构体、map类型的快捷方法（重点推荐）
+* random 关于随机数的快捷方法
+* slice 对于数组的一些处理、查询、转换 （推荐）
+* time 时间的便捷函数 
+* tools 其他杂七杂八的
+* uuid 唯一id生成
+* weight_random 权重计算
+
+
+
+```go
+
+// 类型转换相关
+// 建议使用更完善的工具库 https://github.com/spf13/cast
+// 判断该值是否为表示空值，0，"0"， false, "false"等
+func Empty(v interface}) bool
+
+// 判断一堆基础类型的值是不是都是空
+func AllEmpty(vl ...interface}) bool
+
+// 判断interface是否为nil
+func IsNil(i interface}) bool
+
+// 如果是字符串，则转化为int64, 浮点数丢失精度，无法转化则为0
+func AsInt64(v interface}) int64
+
+func AsBool(v interface}) bool
+
+func AsInt64Slice(v interface}) []int64
+
+func AsInt64OrDefault(v interface}, d int64) int64
+
+func AsInt(v interface}) int
+
+func AsFloat64(v interface}) float64
+
+func AsString(v interface}) string
+
+func AsStringOrDefault(v interface}, d string) string
+
+func AsH(v interface}) H
+
+func AsStringSlice(v interface}) []string
+
+func SliceString2Int(src []string) ([]int, error)
+
+// 字符串切片转换为 int64 切片
+func SliceString2Int64(src []string) ([]int64, error)
+
+// "s1, s2, s3, s4" => []string{"s1", "s2", "s3", "s4"}
+// "[s1, s2, s3, s4]" => []string{"s1", "s2", "s3", "s4"}
+// "["s1", "s2", "s3", "s4"]" => []string{"s1", "s2", "s3", "s4"}
+func StrToStrSlice(str string) []string
+
+func SliceToStr(arr []int64) string
+
+func StrSliceToStr(arr []string) string
+
+// "1,2,3,4" => []int{1, 2, 3, 4}
+// "[1,2,3,4]" => []int{1, 2, 3, 4}
+func StrToSlice(str string) []int64
+
+// 计算绝对值
+func Abs(num1, num2 int64) int64
+
+// 最大值
+func MaxNum(argus ...int64) int64
+
+// 最小值
+func MinNum(argus ...int64) int64
+
+// 计算md5值
+func MD5(str string) string
+
+// 计算base64
+func Base64(str string) string
+
+// 计算Sha256
+func Sha256(str string) string
+
+// 使用aes-cbc加密方法加密数据
+func AesCbcEncrypt(str string, key []byte, IV []byte) ([]byte, error)
+
+// 使用aes-cbc加密方法解密数据
+func AesCbcDecrypt(encrypted []byte, key []byte, IV []byte) ([]byte, error)
+
+// 获取一个将字符串转为int64的算法句柄
+func HashCode() hashCode
+
+// 更方便的json数据解析，建议使用map.go文件中的toStruct方法，解析到结构体中
+// 编码任意数据为json字符串
+func JsonEncode(v Any) string
+
+// 将json字符串解码成map结构 （此时，数据的结构会变成浮点数，超过浮点数精度的数据，会不准确）
+func JsonDecode(jsonStr string) map[string]interface}
+
+// 将json字符串解码成map结构，能保留大数的数据
+func JsonDecodeSafe(jsonStr string) map[string]interface}
+
+// 将json字符串解码成map结构，也可以是个数组，在两个返回值中返回一个，使用者需要知道数据是什么类型
+func JsonDecodes(jsonStr string) (map[string]interface}, []map[string]interface})
+
+// 可以解析任意json类型的数据，以interface{}类型返回
+func JsonDecodeAny(jsonStr string) interface}
+
+// 将城市去除 `市`的后缀，省份去除`省`的后缀
+func SimpleName(o string) string
+
+// 将m的值，复制给s结构体中同名json-tag的字段，s必须为结构体指针
+func Merge(m H, h H) H
+
+// 将多个类型的数据，映射到结构体中
+// @param m string|map|struct|[]map 源数据
+// @param s *struct|*[]struct 接收数据的结构体，可以是结构体切片，但是必须是指针类型
+// @param tagNames string 做字段映射的时候，默认使用json的tag，可以在这里指定使用什么tag
+func ToStruct(m interface}, s interface}, tagNames ...string)
+
+// 将json字符串，使用mapstruct实现
+// @param json string 源数据json
+// @param s *struct|*[]struct 接收数据的结构体，可以是结构体切片，但是必须是指针类型
+// @param tagNames string 做字段映射的时候，默认使用json的tag，可以在这里指定使用什么tag
+func JsonToStruct(json string, s interface}, tagNames ...string)
+
+// 能够多层级获取map中的数据
+// @param m 待获取的数据源
+// @param key 字段，格式为 a.b.c.d
+// @return v 获取到的值
+// @return ok 是否成功获取到了值
+func DeepGet(m map[string]interface}, key string) (v interface}, ok bool)
+
+// 能够多层级获取map中的数据，无法获取时抛出错误
+// @param m 待获取的数据源
+// @param key 字段，格式为 a.b.c.d
+// @return 获取到的值
+func DeepGetMust(m map[string]interface}, key string) interface}
+
+// 能够多层级获取map中的数据，无法获取时返回nil
+// @param m 待获取的数据源
+// @param key 字段，格式为 a.b.c.d
+// @return 获取到的值
+func DeepGetShould(m map[string]interface}, key string) interface}
+
+// 能够多层级设置map中的数据，失败时抛出异常
+// @param m 待设置的数据源
+// @param key 字段，格式为 a.b.c.d
+// @param val 值
+func DeepMustSet(m map[string]interface}, key string, val interface})
+
 // 获取两个值之间的随机数
 func RandInt64(min, max int64) int64
 
@@ -11,6 +164,10 @@ func RandSliceIdx(size, len int) []int
 
 // 从切片中获取随机值，和剩余的其他值
 func RandSlice(s []int) (int, []int)
+
+func TestRandSliceIdx(t *testing.T)
+
+func TestRandSlice(t *testing.T)
 
 // 通过自定义函数比较是否在切片中
 // param @val 待判断的值
@@ -137,6 +294,13 @@ func GetZeroTime(d time.Time) time.Time
 // 获取当前 时分秒 的秒数
 func GetTimeSeconds() int64
 
+func TestGetLatestDaysBaseNow(t *testing.T)
+
+func TestWeekInfo(t *testing.T)
+
+func TestYmdStr(t *testing.T)
+
+func TestLastMonthDay(t *testing.T)
 
 // 版本比较
 func VersionThan(va string, vb string) int
@@ -238,6 +402,20 @@ func Number2Chinese(number int64, money ...bool) (chinese string)
 // 宽字符长度计算
 func GetStringLenInfo(str string) (runeLen int, displayLen int)
 
+func TestIsCrossDay(t *testing.T)
+
+func TestSimpleName(t *testing.T)
+
+func TestSubStrByShowLen(t *testing.T)
+
+func TestCeil(t *testing.T)
+
+func TestVersionThean(t *testing.T)
+
+func TestGetFileExt(t *testing.T)
+
+func TestSubstr(t *testing.T)
+
 // 获取UUID 字符串内容
 func (u UUID) String() string
 
@@ -257,7 +435,6 @@ func NewUUID() string
 func (list WrList) TotalWeight() int
 
 // 获取随机权重的key
-func (list WrList) Rand() string 
+func (list WrList) Rand() string
 
-
-
+```
