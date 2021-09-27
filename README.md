@@ -22,50 +22,50 @@
 // 建议使用更完善的工具库 https://github.com/spf13/cast
 
 // 判断该值是否为表示空值，0，"0"， false, "false"等
-func Empty(v interface}) bool
+func Empty(v interface{}) bool
 
 // 判断一堆基础类型的值是不是都是空
-func AllEmpty(vl ...interface}) bool
+func AllEmpty(vl ...interface{}) bool
 
 // 判断interface是否为nil
-func IsNil(i interface}) bool
+func IsNil(i interface{}) bool
 
 // 如果是字符串，则转化为int64, 浮点数丢失精度，无法转化则为0
-func AsInt64(v interface}) int64
+func AsInt64(v interface{}) int64
 
-func AsBool(v interface}) bool
+func AsBool(v interface{}) bool
 
-func AsInt64Slice(v interface}) []int64
+func AsInt64Slice(v interface{}) []int64
 
-func AsInt64OrDefault(v interface}, d int64) int64
+func AsInt64OrDefault(v interface{}, d int64) int64
 
-func AsInt(v interface}) int
+func AsInt(v interface{}) int
 
-func AsFloat64(v interface}) float64
+func AsFloat64(v interface{}) float64
 
-func AsString(v interface}) string
+func AsString(v interface{}) string
 
-func AsStringOrDefault(v interface}, d string) string
+func AsStringOrDefault(v interface{}, d string) string
 
-func AsH(v interface}) H
-func AsStringSlice(v interface}) []string
+func AsH(v interface{}) H
+func AsStringSlice(v interface{}) []string
 
 func SliceString2Int(src []string) ([]int, error)
 
 // 字符串切片转换为 int64 切片
 func SliceString2Int64(src []string) ([]int64, error)
 
-// "s1, s2, s3, s4" => []string"s1", "s2", "s3", "s4"}
-// "[s1, s2, s3, s4]" => []string"s1", "s2", "s3", "s4"}
-// "["s1", "s2", "s3", "s4"]" => []string"s1", "s2", "s3", "s4"}
+// "s1, s2, s3, s4" => []string{"s1", "s2", "s3", "s4"}
+// "[s1, s2, s3, s4]" => []string{"s1", "s2", "s3", "s4"}
+// "["s1", "s2", "s3", "s4"]" => []string{"s1", "s2", "s3", "s4"}
 func StrToStrSlice(str string) []string
 
 func SliceToStr(arr []int64) string
 
 func StrSliceToStr(arr []string) string
 
-// "1,2,3,4" => []int1, 2, 3, 4}
-// "[1,2,3,4]" => []int1, 2, 3, 4}
+// "1,2,3,4" => []int{1, 2, 3, 4}
+// "[1,2,3,4]" => []int{1, 2, 3, 4}
 func StrToSlice(str string) []int64
 
 // 计算绝对值
@@ -104,16 +104,16 @@ func HashCode() hashCode
 func JsonEncode(v Any) string
 
 // 将json字符串解码成map结构 （此时，数据的结构会变成浮点数，超过浮点数精度的数据，会不准确）
-func JsonDecode(jsonStr string) map[string]interface}
+func JsonDecode(jsonStr string) map[string]interface{}
 
 // 将json字符串解码成map结构，能保留大数的数据
-func JsonDecodeSafe(jsonStr string) map[string]interface}
+func JsonDecodeSafe(jsonStr string) map[string]interface{}
 
 // 将json字符串解码成map结构，也可以是个数组，在两个返回值中返回一个，使用者需要知道数据是什么类型
-func JsonDecodes(jsonStr string) (map[string]interface}, []map[string]interface})
+func JsonDecodes(jsonStr string) (map[string]interface{}, []map[string]interface{})
 
-// 可以解析任意json类型的数据，以interface}类型返回
-func JsonDecodeAny(jsonStr string) interface}
+// 可以解析任意json类型的数据，以interface{}类型返回
+func JsonDecodeAny(jsonStr string) interface{}
 
 // 将城市去除 `市`的后缀，省份去除`省`的后缀
 func SimpleName(o string) string
@@ -125,38 +125,38 @@ func Merge(m H, h H) H
 // @param m string|map|struct|[]map 源数据
 // @param s *struct|*[]struct 接收数据的结构体，可以是结构体切片，但是必须是指针类型
 // @param tagNames string 做字段映射的时候，默认使用json的tag，可以在这里指定使用什么tag
-func ToStruct(m interface}, s interface}, tagNames ...string)
+func ToStruct(m interface{}, s interface{}, tagNames ...string)
 
 // 将json字符串，使用mapstruct实现
 // @param json string 源数据json
 // @param s *struct|*[]struct 接收数据的结构体，可以是结构体切片，但是必须是指针类型
 // @param tagNames string 做字段映射的时候，默认使用json的tag，可以在这里指定使用什么tag
-func JsonToStruct(json string, s interface}, tagNames ...string)
+func JsonToStruct(json string, s interface{}, tagNames ...string)
 
 // 能够多层级获取map中的数据
 // @param m 待获取的数据源
 // @param key 字段，格式为 a.b.c.d
 // @return v 获取到的值
 // @return ok 是否成功获取到了值
-func DeepGet(m map[string]interface}, key string) (v interface}, ok bool)
+func DeepGet(m map[string]interface{}, key string) (v interface{}, ok bool)
 
 // 能够多层级获取map中的数据，无法获取时抛出错误
 // @param m 待获取的数据源
 // @param key 字段，格式为 a.b.c.d
 // @return 获取到的值
-func DeepGetMust(m map[string]interface}, key string) interface}
+func DeepGetMust(m map[string]interface{}, key string) interface{}
 
 // 能够多层级获取map中的数据，无法获取时返回nil
 // @param m 待获取的数据源
 // @param key 字段，格式为 a.b.c.d
 // @return 获取到的值
-func DeepGetShould(m map[string]interface}, key string) interface}
+func DeepGetShould(m map[string]interface{}, key string) interface{}
 
 // 能够多层级设置map中的数据，失败时抛出异常
 // @param m 待设置的数据源
 // @param key 字段，格式为 a.b.c.d
 // @param val 值
-func DeepMustSet(m map[string]interface}, key string, val interface})
+func DeepMustSet(m map[string]interface{}, key string, val interface{})
 
 // 获取两个值之间的随机数
 func RandInt64(min, max int64) int64
@@ -174,21 +174,21 @@ func RandSlice(s []int) (int, []int)
 // param equalFunc 自定义比较函数
 // return @exist 是否存在
 // return @index 若存在返回在数组所在位置
-func InArrayByFunc(val interface}, array interface}, equalFunc func(val, arrayItem interface}) bool) (exist bool, index int)
+func InArrayByFunc(val interface{}, array interface{}, equalFunc func(val, arrayItem interface{}) bool) (exist bool, index int)
 
 // 判断val 是否在切片中
-func IsExists(val interface}, array interface}) bool
+func IsExists(val interface{}, array interface{}) bool
 
 // 判断某个值是否在切片中
-func IsExistsByFunc(val interface}, array interface}, equalFunc func(val, arrayItem interface}) bool) bool
+func IsExistsByFunc(val interface{}, array interface{}, equalFunc func(val, arrayItem interface{}) bool) bool
 
 // 获取val在切片中的位置
 // return 若不存在返回值为-1
-func IndexOf(val interface}, array interface}) int
+func IndexOf(val interface{}, array interface{}) int
 
 // 通过自定义函数获取val在切片中的位置
 // return 若不存在返回值为-1
-func IndexOfByFunc(val interface}, array interface}, equalFunc func(val, arrayItem interface}) bool) int
+func IndexOfByFunc(val interface{}, array interface{}, equalFunc func(val, arrayItem interface{}) bool) int
 
 // 切片值去重
 func Deduplication(arr []int64) []int64
@@ -200,25 +200,25 @@ func RemoveNum(arr []int64, target int64) []int64
 func RemoveIntersection(arr1, arr2 []int64) []int64
 
 // 切片中的所有元素是否都满足指定方法
-func All(array interface}, function func(item interface}) bool) bool
+func All(array interface{}, function func(item interface{}) bool) bool
 
 // 切片中是否存在满足指定方法的元素，如果不传方法，则判断切片中是否有元素，传多个方法只会取第一个
-func AnyOne(array interface}, function ...func(item interface}) bool) bool
+func AnyOne(array interface{}, function ...func(item interface{}) bool) bool
 
 // 将切片中的每个元素都作为入参传入指定方法中，收集方法返回值并放入切片返回
-func Select(array interface}, function func(item interface}) interface}) []interface}
+func Select(array interface{}, function func(item interface{}) interface{}) []interface{}
 
 // 返回切片中满足指定方法的元素个数
-func Count(array interface}, function func(item interface}) bool) int64
+func Count(array interface{}, function func(item interface{}) bool) int64
 
 // 返回切片中满足指定方法的元素
-func Where(array interface}, function func(item interface}) bool) []interface}
+func Where(array interface{}, function func(item interface{}) bool) []interface{}
 
 // 返回切片中第一个满足指定方法的元素，如不存在则返回nil
-func First(array interface}, function func(item interface}) bool) interface}
+func First(array interface{}, function func(item interface{}) bool) interface{}
 
 // 返回切片中第一个满足指定方法的元素，如不存在则返回入参中的默认值
-func FirstOrDefault(array interface}, function func(item interface}) bool, def interface}) interface}
+func FirstOrDefault(array interface{}, function func(item interface{}) bool, def interface{}) interface{}
 
 // 判断时间段是否跨天
 func IsCrossDay(begin int64, ends ...int64) bool
@@ -306,18 +306,18 @@ func AppendStuct(reciv Any, give Any)
 func EncodeUrlWithoutSort(v url.Values, keys []string, withOutEncode bool) string
 
 // 判断val 是否在arry 中
-func InArray(val interface}, array interface}) (exists bool, index int)
+func InArray(val interface{}, array interface{}) (exists bool, index int)
 
 // 将下划线风格的单词变为驼峰命名的单词
 func UnderLineToCamel(line string) string
 
 // 合并两个map
-func MergeMap(argus ...map[string]interface}) map[string]interface}
+func MergeMap(argus ...map[string]interface{}) map[string]interface{}
 
 // http get 请求
 // return http get response body
 // return error
-func HttpGet(url string) (map[string]interface}, error)
+func HttpGet(url string) (map[string]interface{}, error)
 
 // 设置连接超时时间
 // param @cTimeout conntect timeout second
@@ -326,7 +326,7 @@ func HttpGet(url string) (map[string]interface}, error)
 func TimeoutDialer(cTimeout time.Duration, rwTimeout time.Duration) func(net, addr string) (c net.Conn, err error)
 
 // 获取 map key 列表
-func MapKeys(item map[string]interface}) []string
+func MapKeys(item map[string]interface{}) []string
 
 // http post 请求
 // param @url http url
@@ -335,7 +335,7 @@ func MapKeys(item map[string]interface}) []string
 // param @header http post header
 // return response body
 // return post error
-func HttpPost(url string, params interface}, seconds int, header ...interface}) (map[string]interface}, error)
+func HttpPost(url string, params interface{}, seconds int, header ...interface{}) (map[string]interface{}, error)
 
 // 模仿 php 中的 mb_strimwidth
 // 字显示宽度为 1 或 2
