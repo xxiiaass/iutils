@@ -1,3 +1,3 @@
 #!/bin/bash
 
-grep '^func [A-Z]' -r *.go -h -B 10 | grep -v testing |grep -E '(^(func|//))|(^[:space:]*$)' | sed 's/{//g' | cat -s
+grep '^func [A-Z]' -r *.go -h -B 10 | grep -v testing |grep -E '(^(func|//))|(^[:space:]*$)' | sed 's/ {//g' | cat -s
