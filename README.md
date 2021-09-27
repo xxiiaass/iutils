@@ -18,9 +18,9 @@
 
 
 ```go
-
 // 类型转换相关
 // 建议使用更完善的工具库 https://github.com/spf13/cast
+
 // 判断该值是否为表示空值，0，"0"， false, "false"等
 func Empty(v interface}) bool
 
@@ -48,7 +48,6 @@ func AsString(v interface}) string
 func AsStringOrDefault(v interface}, d string) string
 
 func AsH(v interface}) H
-
 func AsStringSlice(v interface}) []string
 
 func SliceString2Int(src []string) ([]int, error)
@@ -56,17 +55,17 @@ func SliceString2Int(src []string) ([]int, error)
 // 字符串切片转换为 int64 切片
 func SliceString2Int64(src []string) ([]int64, error)
 
-// "s1, s2, s3, s4" => []string{"s1", "s2", "s3", "s4"}
-// "[s1, s2, s3, s4]" => []string{"s1", "s2", "s3", "s4"}
-// "["s1", "s2", "s3", "s4"]" => []string{"s1", "s2", "s3", "s4"}
+// "s1, s2, s3, s4" => []string"s1", "s2", "s3", "s4"}
+// "[s1, s2, s3, s4]" => []string"s1", "s2", "s3", "s4"}
+// "["s1", "s2", "s3", "s4"]" => []string"s1", "s2", "s3", "s4"}
 func StrToStrSlice(str string) []string
 
 func SliceToStr(arr []int64) string
 
 func StrSliceToStr(arr []string) string
 
-// "1,2,3,4" => []int{1, 2, 3, 4}
-// "[1,2,3,4]" => []int{1, 2, 3, 4}
+// "1,2,3,4" => []int1, 2, 3, 4}
+// "[1,2,3,4]" => []int1, 2, 3, 4}
 func StrToSlice(str string) []int64
 
 // 计算绝对值
@@ -87,16 +86,20 @@ func Base64(str string) string
 // 计算Sha256
 func Sha256(str string) string
 
+func _PKCS5Padding(ciphertext []byte, blockSize int) []byte
+
 // 使用aes-cbc加密方法加密数据
 func AesCbcEncrypt(str string, key []byte, IV []byte) ([]byte, error)
 
 // 使用aes-cbc加密方法解密数据
+
 func AesCbcDecrypt(encrypted []byte, key []byte, IV []byte) ([]byte, error)
 
 // 获取一个将字符串转为int64的算法句柄
 func HashCode() hashCode
 
 // 更方便的json数据解析，建议使用map.go文件中的toStruct方法，解析到结构体中
+
 // 编码任意数据为json字符串
 func JsonEncode(v Any) string
 
@@ -109,7 +112,7 @@ func JsonDecodeSafe(jsonStr string) map[string]interface}
 // 将json字符串解码成map结构，也可以是个数组，在两个返回值中返回一个，使用者需要知道数据是什么类型
 func JsonDecodes(jsonStr string) (map[string]interface}, []map[string]interface})
 
-// 可以解析任意json类型的数据，以interface{}类型返回
+// 可以解析任意json类型的数据，以interface}类型返回
 func JsonDecodeAny(jsonStr string) interface}
 
 // 将城市去除 `市`的后缀，省份去除`省`的后缀
@@ -164,10 +167,6 @@ func RandSliceIdx(size, len int) []int
 
 // 从切片中获取随机值，和剩余的其他值
 func RandSlice(s []int) (int, []int)
-
-func TestRandSliceIdx(t *testing.T)
-
-func TestRandSlice(t *testing.T)
 
 // 通过自定义函数比较是否在切片中
 // param @val 待判断的值
@@ -265,7 +264,6 @@ func GetNowUnix() int64
 
 // 获取当前时间戳，毫秒级
 func GetNowUnixMilli() int64
-
 // 获取当前时间戳，纳秒级
 func GetNowUnixNano() int64
 
@@ -293,14 +291,6 @@ func GetZeroTime(d time.Time) time.Time
 
 // 获取当前 时分秒 的秒数
 func GetTimeSeconds() int64
-
-func TestGetLatestDaysBaseNow(t *testing.T)
-
-func TestWeekInfo(t *testing.T)
-
-func TestYmdStr(t *testing.T)
-
-func TestLastMonthDay(t *testing.T)
 
 // 版本比较
 func VersionThan(va string, vb string) int
@@ -356,7 +346,6 @@ func CopyMapTopLevel(src H) H
 
 // 比较来个slice 的差异
 func Diff(arr1 []int64, arr2 []int64) []int64
-
 // 获取slice 中最大值
 func MaxInSlice(arr []int64) int64
 
@@ -402,22 +391,7 @@ func Number2Chinese(number int64, money ...bool) (chinese string)
 // 宽字符长度计算
 func GetStringLenInfo(str string) (runeLen int, displayLen int)
 
-func TestIsCrossDay(t *testing.T)
-
-func TestSimpleName(t *testing.T)
-
-func TestSubStrByShowLen(t *testing.T)
-
-func TestCeil(t *testing.T)
-
-func TestVersionThean(t *testing.T)
-
-func TestGetFileExt(t *testing.T)
-
-func TestSubstr(t *testing.T)
-
-// 获取UUID 字符串内容
-func (u UUID) String() string
+func (u *UUID) setVersion(version byte)
 
 // UUID3 generates a version 3 UUID
 func UUID3(namespace UUID, name string) UUID
@@ -430,11 +404,5 @@ func UUID5(namespace UUID, name string) UUID
 
 // NewUUID 默认使用 UUID4
 func NewUUID() string
-
-// 获取总权重
-func (list WrList) TotalWeight() int
-
-// 获取随机权重的key
-func (list WrList) Rand() string
 
 ```
