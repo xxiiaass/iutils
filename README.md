@@ -68,6 +68,14 @@ func StrSliceToStr(arr []string) string
 // "[1,2,3,4]" => []int{1, 2, 3, 4}
 func StrToSlice(str string) []int64
 
+// 将字符串转换为byte数组，默认使用标准转换方式
+// 可以传参true，要求使用强转换，此时返回的byte数组将不能修改，否则会报错!!!
+func StrToBytes(str string, useUnsafe ...bool) []byte
+
+// 将byte数组转换为字符串，默认使用标准转换方式
+// 可以传参true，要求使用强转换，此时返回的string将不再是只读，有可能会被修改!!
+func BytesToStr(bs []byte, useUnsafe ...bool) string
+
 // 计算绝对值
 func Abs(num1, num2 int64) int64
 

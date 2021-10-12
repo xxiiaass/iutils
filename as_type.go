@@ -5,11 +5,11 @@ import (
 	"reflect"
 	"strconv"
 	"strings"
+	"unsafe"
 )
 
 // 类型转换相关
 // 建议使用更完善的工具库 https://github.com/spf13/cast
-
 
 // 判断该值是否为表示空值，0，"0"， false, "false"等
 func Empty(v interface{}) bool {
@@ -334,8 +334,6 @@ func AsStringSlice(v interface{}) []string {
 	return ret
 }
 
-
-
 func SliceString2Int(src []string) ([]int, error) {
 	dst := make([]int, 0, len(src))
 	for i := range src {
@@ -361,7 +359,6 @@ func SliceString2Int64(src []string) ([]int64, error) {
 	}
 	return dst, nil
 }
-
 
 // "s1, s2, s3, s4" => []string{"s1", "s2", "s3", "s4"}
 // "[s1, s2, s3, s4]" => []string{"s1", "s2", "s3", "s4"}
@@ -426,3 +423,27 @@ func StrToSlice(str string) []int64 {
 	return ids
 }
 
+// 将字符串转换为byte数组，默认使用标准转换方式
+// 可以传参true，要求使用强转换，此时返回的byte数组将不能修改，否则会报错!!!
+func StrToBytes(str string, useUnsafe ...bool) []byte {
+	if len(useUnsafe) == 0 || !useUnsafe[0] {
+		return []byte(str)
+	}
+	sh := (*reflect.StringHeader)(unsafe.Pointer(&str))
+	bh := reflect.SliceHeader{
+		Data: sh.Data,
+		Len:  sh.Len,
+		Cap:  sh.Len,
+	}
+	return *(*[]byte)(unsafe.Pointer(&bh))
+}
+
+
+// 将byte数组转换为字符串，默认使用标准转换方式
+// 可以传参true，要求使用强转换，此时返回的string将不再是只读，有可能会被修改!!
+func BytesToStr(bs []byte, useUnsafe ...bool) string {
+	if len(useUnsafe) == 0 || !useUnsafe[0] {
+		return string(bs)
+	}
+	return *(*string)(unsafe.Pointer(&bs))
+}
